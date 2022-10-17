@@ -16,3 +16,8 @@ body{
     width:80%;
     
 }
+li{ 
+    background-color:white;
+    margin:5px;
+    padding:5px;
+}

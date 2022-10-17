@@ -58,21 +58,7 @@ const Trivia = () => {
   }, []);
 
   function fetchquestion() {
-    // axios
-    //   .get("https://opentdb.com/api.php?amount=1")
-    //   .then((res: AxiosResponse) => {
-    //     // console.log(res.data.results[0]);
-    //     setdata(res.data.results);  // adding fetched data to data variable in state
-
-    //     localStorage.setItem(         // adding answer of the question to localStorage
-    //       "answerinlocal",
-    //       JSON.stringify(res.data.results[0])
-    //     );
-    //   })
-    //   .catch((err: AxiosResponse) => {
-    //     console.log(err);
-    //   });
-
+ 
     fetch("https://opentdb.com/api.php?amount=1")
     .then(response => response.json())
     .then(data => {
