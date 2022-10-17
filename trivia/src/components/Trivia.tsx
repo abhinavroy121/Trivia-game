@@ -7,7 +7,7 @@ import Modal from '@mui/material/Modal';
 import { MdDoneAll,MdDangerous } from "react-icons/md";
 import { TextField } from "@mui/material";
 
-import styles from "./Trivia.module.css"
+import styles from "./styles/Trivia.module.css"
 
 // Assigning schema for data received by API call
 type ResponseData = {
@@ -32,15 +32,18 @@ const style = {
   };
 
 const Trivia = () => {
+
+    
+
   // Getting the hidden answer from local Storage
   var getanswer = JSON.parse(localStorage.getItem("answerinlocal") || "false");
-  getanswer = getanswer.toLowerCase();
+  getanswer = getanswer.correct_answer.toLowerCase();
 
   // Declaring varibles to keep and update value in State
   const [data, setdata] = useState([]); // data fetched by API
   const [input, setinput] = useState(""); // Catching value from input
  const [modalvalue,setmodalvalue] = useState("")
-
+ const [len,setlen] = useState(0)
   const [open, setOpen] = React.useState(false);
   
   const handleClose = () => setOpen(false);
@@ -55,11 +58,13 @@ const Trivia = () => {
     axios
       .get("https://opentdb.com/api.php?amount=1")
       .then((res: AxiosResponse) => {
-        console.log(res.data.results);
+        console.log(res.data.results[0]);
+        setlen(res.data.results[0].incorrect_answers.length)
         setdata(res.data.results);
+
         localStorage.setItem(
           "answerinlocal",
-          JSON.stringify(res.data.results[0].correct_answer)
+          JSON.stringify(res.data.results[0])
         );
       })
       .catch((err: AxiosResponse) => {
@@ -91,20 +96,27 @@ const Trivia = () => {
      setOpen(false)
      fetchquestion()
      setinput("")
-    //  document.getElementById("inputhere").innerText ={ ""}
-  
+     
   }
 
   return (
-    <div>
+    <div className={styles.maindiv}>
       <div>
         {data.map((item: ResponseData, index: number) => (
           <div key={index}>
-            <h5>{`Question Type: ${item.type}`}</h5>
-            <p>{`Difficulty:${item.difficulty}`}</p>
+           
             <h3>{item.question}</h3>
+            <ul>
+            <li>{item.incorrect_answers[0]}</li>
+           <li>{item.incorrect_answers[1]}</li>
+           <li>{item.incorrect_answers[2]}</li>
+           <li>{getanswer}</li>
+            </ul>
+           
+          
+       
             <div className={styles.buttons}>
-              <input id="inputhere" placeholder={"Answer"} type="text"  onChange={(e) => setinput(e.target.value)}  />
+              <TextField  placeholder={"Answer"} type="text"value={input}  onChange={(e) => setinput(e.target.value)}  />
               <Button onClick={handleSubmit} variant={"contained"}>Check</Button>
             </div>
           </div>

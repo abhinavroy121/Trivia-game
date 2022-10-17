@@ -1,0 +1,10 @@
+.container {
+    background-color: rgb(178, 50, 204);
+     display:flex;
+     justify-content:space-around;
+}
+p{
+    background-color:burlywood;
+    padding:8px;
+    border-radius:5px;
+}

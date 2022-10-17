@@ -1,3 +1,8 @@
+
+body{
+    background-color: lightgrey;
+}
+
 .buttons {
     display:flex;
     justify-content: center;
