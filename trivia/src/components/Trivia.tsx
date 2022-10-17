@@ -19,6 +19,8 @@ type ResponseData = {
   type: string;
 };
 
+
+// styles for modal imported from material-ui library
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -31,9 +33,8 @@ const style = {
     p: 4,
   };
 
-const Trivia = () => {
 
-    
+const Trivia = () => {
 
   // Getting the hidden answer from local Storage
   var getanswer = JSON.parse(localStorage.getItem("answerinlocal") || "false");
@@ -42,13 +43,12 @@ const Trivia = () => {
   // Declaring varibles to keep and update value in State
   const [data, setdata] = useState([]); // data fetched by API
   const [input, setinput] = useState(""); // Catching value from input
- const [modalvalue,setmodalvalue] = useState("")
- const [len,setlen] = useState(0)
-  const [open, setOpen] = React.useState(false);
-  
-  const handleClose = () => setOpen(false);
-  
+ const [modalvalue,setmodalvalue] = useState("") // for catching the status of answer in modal
 
+  const [open, setOpen] = React.useState(false); // imported from material-ui to open the modal
+  
+  const handleClose = () => setOpen(false);  //  function to close modal
+ 
 
   useEffect(() => {
     fetchquestion(); // invoking the function of API call on mounting any change occur
@@ -58,11 +58,10 @@ const Trivia = () => {
     axios
       .get("https://opentdb.com/api.php?amount=1")
       .then((res: AxiosResponse) => {
-        console.log(res.data.results[0]);
-        setlen(res.data.results[0].incorrect_answers.length)
-        setdata(res.data.results);
+        // console.log(res.data.results[0]);
+        setdata(res.data.results);  // adding fetched data to data variable in state
 
-        localStorage.setItem(
+        localStorage.setItem(         // adding answer of the question to localStorage
           "answerinlocal",
           JSON.stringify(res.data.results[0])
         );
@@ -91,38 +90,44 @@ const Trivia = () => {
     setOpen(true);
   };
   
-
+  // function to go to next question  from the modal pop-up
   const handlenext = ()=>{
      setOpen(false)
      fetchquestion()
      setinput("")
      
   }
-  
+
   return  (
     <div className={styles.maindiv}>
       <div>
+        {/* mapping data for better view and understanding */}
         {data.map((item: ResponseData, index: number) => (
           <div key={index} >
            
-            <h3>Q: {item.question}</h3>
-            <ul>
+          <div className={styles.middlediv}>
+          <h3>Q: {item.question}</h3>
+         { item.type== "multiple"?  <ul>
             <li>{item.incorrect_answers[0]}</li>
            <li>{item.incorrect_answers[1]}</li>
            <li>{item.incorrect_answers[2]}</li>
            <li>{getanswer}</li>
+            </ul> : 
+            <ul>
+                <li>{item.incorrect_answers[0]}</li>
+                <li>{getanswer}</li>
             </ul>
+            } 
            
-          
-       
-            <div className={styles.buttons}>
+          </div>
+             <div className={styles.buttons}>
               <TextField  placeholder={"Answer"} type="text"value={input}  onChange={(e) => setinput(e.target.value)}  />
               <Button onClick={handleSubmit} variant={"contained"}>Check</Button>
             </div>
           </div>
         ))}:
 
-       
+       {/* // modal for showing right or wrong choice */}
 <Modal
         open={open}
         onClose={handleClose}

@@ -7,4 +7,12 @@ body{
     display:flex;
     justify-content: center;
     gap:15px;
+    margin:20px;
+}
+.middlediv {
+    background-color:wheat;
+    padding:10px;
+    margin:auto;
+    width:80%;
+    
 }
