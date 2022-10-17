@@ -3,8 +3,13 @@
      display:flex;
      justify-content:space-around;
 }
-p{
+.para{
     background-color:burlywood;
+    padding:8px;
+    border-radius:5px;
+}
+h5{
+    background-color: greenyellow;
     padding:8px;
     border-radius:5px;
 }

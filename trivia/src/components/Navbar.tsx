@@ -6,12 +6,13 @@ const Navbar = () => {
 
 
   return (
-    <div>
+
         <div className={styles.container}>
-        <h5>{`Question Type: ${element.type}`}</h5>
-            <p>{`Difficulty:${element.difficulty}`}</p>
+            <h2>Trivia Game</h2>
+        <h5>{`${element.type} Type`}</h5>
+            <p className={styles.para}>{`Difficulty:${element.difficulty}`}</p>
         </div>
-    </div>
+   
   )
 }
 

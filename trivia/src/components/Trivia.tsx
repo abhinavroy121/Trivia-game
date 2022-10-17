@@ -98,14 +98,14 @@ const Trivia = () => {
      setinput("")
      
   }
-
-  return (
+  
+  return  (
     <div className={styles.maindiv}>
       <div>
         {data.map((item: ResponseData, index: number) => (
-          <div key={index}>
+          <div key={index} >
            
-            <h3>{item.question}</h3>
+            <h3>Q: {item.question}</h3>
             <ul>
             <li>{item.incorrect_answers[0]}</li>
            <li>{item.incorrect_answers[1]}</li>
@@ -120,8 +120,9 @@ const Trivia = () => {
               <Button onClick={handleSubmit} variant={"contained"}>Check</Button>
             </div>
           </div>
-        ))}
+        ))}:
 
+       
 <Modal
         open={open}
         onClose={handleClose}
