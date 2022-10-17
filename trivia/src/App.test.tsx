@@ -1,9 +1,14 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen,fireEvent  } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+describe('renders react app', () => {
+    beforeEach(() => {
+        render(<App />);
+    })
+ 
+   test("should have navbar component", () => {
+      let apppage = screen.getByTestId("apppage")
+      expect(apppage).toBeInTheDocument()
+   })
 });

@@ -1,5 +1,5 @@
-import axios, { AxiosResponse } from "axios";
 import React, { useEffect, useState } from "react";
+import axios, { AxiosResponse } from "axios";
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -38,7 +38,10 @@ const Trivia = () => {
 
   // Getting the hidden answer from local Storage
   var getanswer = JSON.parse(localStorage.getItem("answerinlocal") || "false");
-  getanswer = getanswer.correct_answer.toLowerCase();
+   if(getanswer){
+    getanswer = getanswer.correct_answer.toLowerCase();
+   }
+
 
   // Declaring varibles to keep and update value in State
   const [data, setdata] = useState([]); // data fetched by API
@@ -55,20 +58,31 @@ const Trivia = () => {
   }, []);
 
   function fetchquestion() {
-    axios
-      .get("https://opentdb.com/api.php?amount=1")
-      .then((res: AxiosResponse) => {
-        // console.log(res.data.results[0]);
-        setdata(res.data.results);  // adding fetched data to data variable in state
+    // axios
+    //   .get("https://opentdb.com/api.php?amount=1")
+    //   .then((res: AxiosResponse) => {
+    //     // console.log(res.data.results[0]);
+    //     setdata(res.data.results);  // adding fetched data to data variable in state
 
-        localStorage.setItem(         // adding answer of the question to localStorage
+    //     localStorage.setItem(         // adding answer of the question to localStorage
+    //       "answerinlocal",
+    //       JSON.stringify(res.data.results[0])
+    //     );
+    //   })
+    //   .catch((err: AxiosResponse) => {
+    //     console.log(err);
+    //   });
+
+    fetch("https://opentdb.com/api.php?amount=1")
+    .then(response => response.json())
+    .then(data => {
+        setdata(data.results)                   // adding fetched data to data variable in state
+               localStorage.setItem(         // adding answer of the question to localStorage
           "answerinlocal",
-          JSON.stringify(res.data.results[0])
+          JSON.stringify(data.results[0])
         );
-      })
-      .catch((err: AxiosResponse) => {
-        console.log(err);
-      });
+        // console.log(data.results[0])
+    })
   }
 
   // Function to invoked on the click of the button to check the answer
@@ -99,7 +113,7 @@ const Trivia = () => {
   }
 
   return  (
-    <div className={styles.maindiv}>
+    <div className={styles.maindiv} data-testid="maindivhere" >
       <div>
         {/* mapping data for better view and understanding */}
         {data.map((item: ResponseData, index: number) => (
@@ -121,11 +135,11 @@ const Trivia = () => {
            
           </div>
              <div className={styles.buttons}>
-              <TextField  placeholder={"Answer"} type="text"value={input}  onChange={(e) => setinput(e.target.value)}  />
-              <Button onClick={handleSubmit} variant={"contained"}>Check</Button>
+              <TextField  placeholder={"Answer"} type="text"value={input}  onChange={(e) => setinput(e.target.value)} data-testid="inputtag"  />
+              <Button onClick={handleSubmit} variant={"contained"}  data-testid="triviabutton" >Check</Button>
             </div>
           </div>
-        ))}:
+        ))}
 
        {/* // modal for showing right or wrong choice */}
 <Modal
@@ -139,7 +153,7 @@ const Trivia = () => {
          {modalvalue=="Correct Answer"?<MdDoneAll style={{color:"green"}}/>: <MdDangerous style={{color:"red"}}/>} {modalvalue}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          <Button variant={"contained"} onClick={handlenext}>Next</Button>
+          <Button variant={"contained"} onClick={handlenext} data-testid="change">Next</Button>
           </Typography>
         </Box>
       </Modal>

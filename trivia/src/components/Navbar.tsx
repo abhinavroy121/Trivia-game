@@ -8,7 +8,7 @@ const Navbar = () => {
   return (
 
         <div className={styles.container}>
-            <h2>Trivia Game</h2>
+            <h2 data-testid='heading'>Trivia Game</h2>
         <h5>{`${element.type} Type`}</h5>
             <p className={styles.para}>{`Difficulty:${element.difficulty}`}</p>
         </div>
